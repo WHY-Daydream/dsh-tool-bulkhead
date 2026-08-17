@@ -1,0 +1,7 @@
+# dsh-tool-bulkhead bundle patch: inserts the bulkhead guard row into the
+# profile tree. The guard is provided by this plugin; configured tools get
+# per-tool / per-provider concurrency isolation with FIFO queuing, so a slow
+# or saturated downstream resource cannot exhaust every agent's turn.
+- insert:
+    - id: tool-bulkhead
+      name: '@why-daydream/dsh-tool-bulkhead'
