@@ -27,7 +27,7 @@ jobs:
       - name: 生成已验证的发布 tarball
         run: npm run prepare-release
 
-      - name: 校验发布物（无 link: 泄漏）
+      - name: 校验发布物（无 link 泄漏）
         run: |
           tar -tzf why-daydream-dsh-tool-bulkhead-0.1.0.tgz | grep -qE "package/(lib|package.json|cordis.patch.yml|README.md|LICENSE)" || exit 1
           tar -xzf why-daydream-dsh-tool-bulkhead-0.1.0.tgz -O package/package.json | grep -q "link:" && exit 1 || echo "tarball OK"
