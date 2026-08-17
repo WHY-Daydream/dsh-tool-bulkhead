@@ -1,0 +1,38 @@
+name: npm-publish
+
+# Publish @why-daydream/dsh-tool-bulkhead to npm.
+# Reproducible-artifact flow: the SAME prepare-release.mjs used for the
+# out-of-tree / smoke-tested tarball generates the publish artifact on the
+# runner (no `npm install` needed — lib/ is committed), and that tarball —
+# not a fresh `npm publish` from the working tree — is what gets uploaded.
+# Credentials come from the repo secret NPM_TOKEN only.
+on:
+  workflow_dispatch: # manual trigger (initial v0.1.0 publish)
+  push:
+    tags: ['v*'] # future versions: pushing a v* tag auto-publishes
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: 生成已验证的发布 tarball
+        run: npm run prepare-release
+
+      - name: 校验发布物（无 link: 泄漏）
+        run: |
+          tar -tzf why-daydream-dsh-tool-bulkhead-0.1.0.tgz | grep -qE "package/(lib|package.json|cordis.patch.yml|README.md|LICENSE)" || exit 1
+          tar -xzf why-daydream-dsh-tool-bulkhead-0.1.0.tgz -O package/package.json | grep -q "link:" && exit 1 || echo "tarball OK"
+
+      - name: 发布已验证的 tarball
+        run: npm publish ./why-daydream-dsh-tool-bulkhead-0.1.0.tgz --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
