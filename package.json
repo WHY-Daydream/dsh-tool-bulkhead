@@ -1,7 +1,7 @@
 {
   "name": "@why-daydream/dsh-tool-bulkhead",
   "description": "Concurrency isolation / backpressure for DeepSeek Harness: per-tool and per-provider bulkheads with FIFO queuing, queue timeouts, and reject-on-full",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publishConfig": {
     "access": "public"
   },
@@ -49,8 +49,8 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=4.0.1",
-    "@deepseek-ai/dsh-invariants": ">=0.0.1-rc.1",
-    "@deepseek-ai/dsh-tools": ">=0.0.1-rc.1"
+    "@deepseek-ai/dsh-invariants": ">=0.0.1-rc.1 <0.1.0-0 || >=0.1.0-0 <0.2.0-0 || >=0.1.1-0 <0.2.0-0 || >=0.1.2-0 <0.2.0-0 || >=0.1.3-0 <0.2.0-0",
+    "@deepseek-ai/dsh-tools": ">=0.0.1-rc.1 <0.1.0-0 || >=0.1.0-0 <0.2.0-0 || >=0.1.1-0 <0.2.0-0 || >=0.1.2-0 <0.2.0-0 || >=0.1.3-0 <0.2.0-0"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "link:../deepseek-harness/vendor/cordis",
@@ -60,7 +60,9 @@
     "@deepseek-ai/dsh-tools": "link:../deepseek-harness/packages/core/tools",
     "@deepseek-ai/schemastery": "^3.18.1",
     "@types/node": "^22.0.0",
+    "@types/semver": "^7.8.0",
     "oxlint": "^0.16.0",
+    "semver": "^7.8.4",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   }
